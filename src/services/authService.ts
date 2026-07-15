@@ -28,6 +28,7 @@ export async function logoutUser() {
 }
 
 export async function getCurrentUser() {
-  const { data } = await api.get<{ success: boolean; data: UserType }>("/auth/me");
+  const { data } = await api.get<{ success: boolean; data?: UserType }>("/auth/me");
+  if (!data.success || !data.data) throw new Error("Not authenticated");
   return data.data;
 }

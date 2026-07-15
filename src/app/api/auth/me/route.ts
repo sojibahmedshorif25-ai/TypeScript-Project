@@ -7,19 +7,13 @@ export async function GET(request: NextRequest) {
   try {
     const payload = getUserFromRequest(request);
     if (!payload) {
-      return NextResponse.json(
-        { success: false, error: "Not authenticated" },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false }, { status: 200 });
     }
 
     await connectDB();
     const user = await User.findById(payload.userId);
     if (!user) {
-      return NextResponse.json(
-        { success: false, error: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false }, { status: 200 });
     }
 
     return NextResponse.json({
