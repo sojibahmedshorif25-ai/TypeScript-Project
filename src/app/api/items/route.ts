@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
 
     await connectDB();
     const body = await request.json();
-    const { title, shortDescription, fullDescription, price, category, images, location } = body;
+    const { title, shortDescription, fullDescription, price, category, images, location, priority, date } = body;
 
     if (!title || !shortDescription || !fullDescription || !price || !category) {
       return NextResponse.json(
@@ -256,6 +256,8 @@ export async function POST(request: NextRequest) {
       category,
       images: images || [],
       location: location || "",
+      priority: priority || "medium",
+      date: date || new Date().toISOString().split("T")[0],
       userId: user.userId,
     });
 

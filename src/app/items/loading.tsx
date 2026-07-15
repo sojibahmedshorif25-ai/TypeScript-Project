@@ -11,7 +11,7 @@ export default function ItemsLoading() {
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="h-16 bg-gray-200 rounded-xl animate-pulse mb-6" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
           {Array.from({ length: 8 }).map((_, i) => <CardSkeleton key={i} />)}
         </div>
       </div>

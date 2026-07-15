@@ -9,6 +9,8 @@ export interface IItem extends Document {
   images: string[];
   rating: number;
   location: string;
+  priority: "low" | "medium" | "high";
+  date: string;
   userId: mongoose.Types.ObjectId;
   createdAt: Date;
 }
@@ -34,6 +36,8 @@ const ItemSchema = new Schema<IItem>(
     images: [{ type: String }],
     rating: { type: Number, default: 0, min: 0, max: 5 },
     location: { type: String, default: "" },
+    priority: { type: String, enum: ["low", "medium", "high"], default: "medium" },
+    date: { type: String, default: "" },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
 import { connectDB } from "@/lib/db";
 import { Review } from "@/lib/models/Review";
 import { Item } from "@/lib/models/Item";
@@ -18,7 +19,7 @@ export async function GET(
       .lean();
 
     const avgResult = await Review.aggregate([
-      { $match: { itemId: await (await import("mongoose")).Types.ObjectId.createFromHexString(id) } },
+      { $match: { itemId: new mongoose.Types.ObjectId(id) } },
       { $group: { _id: null, avgRating: { $avg: "$rating" }, count: { $sum: 1 } } },
     ]);
 

@@ -7,6 +7,7 @@ import Card from "@/components/Card";
 import { useAuth } from "@/components/AuthContext";
 import { useItem, useItems } from "@/hooks/useItems";
 import { useReviews } from "@/hooks/useReviews";
+import { createReview } from "@/services/reviewService";
 import { PageLoader } from "@/components/LoadingSpinner";
 import { getItemImage } from "@/lib/imagePlaceholder";
 import type { ItemType } from "@/types";
@@ -44,7 +45,6 @@ export default function ItemDetailsPage() {
     }
     setReviewSubmitting(true);
     try {
-      const { createReview } = await import("@/services/reviewService");
       await createReview(id, reviewRating, reviewComment);
       toast.success("Review submitted successfully!");
       setReviewComment("");

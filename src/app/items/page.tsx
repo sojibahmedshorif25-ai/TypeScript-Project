@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Card from "@/components/Card";
@@ -96,6 +96,18 @@ function ExploreContent() {
     router.replace(qs ? `/items?${qs}` : "/items", { scroll: false });
   };
 
+  useEffect(() => {
+    const query = new URLSearchParams();
+    if (debouncedSearch) query.set("search", debouncedSearch);
+    if (category) query.set("category", category);
+    if (minPrice) query.set("minPrice", minPrice);
+    if (maxPrice) query.set("maxPrice", maxPrice);
+    if (sort && sort !== "newest") query.set("sort", sort);
+    query.set("page", page.toString());
+    const qs = query.toString();
+    router.replace(qs ? `/items?${qs}` : "/items", { scroll: false });
+  }, [debouncedSearch, category, minPrice, maxPrice, sort, page, router]);
+
   const clearFilters = () => {
     setCategory("");
     setMinPrice("");
@@ -103,7 +115,6 @@ function ExploreContent() {
     setSort("newest");
     setSearchInput("");
     setPage(1);
-    router.replace("/items", { scroll: false });
   };
 
   return (

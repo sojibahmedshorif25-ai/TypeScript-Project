@@ -13,6 +13,7 @@ export default function ContactPage() {
   });
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -31,13 +32,25 @@ export default function ContactPage() {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    setSubmitted(true);
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setFieldErrors({});
-    setTimeout(() => setSubmitted(false), 3000);
+    setSending(true);
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      setSubmitted(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFieldErrors({});
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch {
+      setFieldErrors({ name: "Failed to send. Try again." } as FieldErrors);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (

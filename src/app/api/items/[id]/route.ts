@@ -69,6 +69,8 @@ export async function PUT(
       "category",
       "location",
       "images",
+      "priority",
+      "date",
     ];
 
     const updateData: Record<string, unknown> = {};

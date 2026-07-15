@@ -58,7 +58,14 @@ export default function LoginPage() {
     if (!popup) {
       setError("Popup blocked. Please allow popups for this site.");
       setGoogleLoading(false);
+      return;
     }
+    const timer = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(timer);
+        setGoogleLoading(false);
+      }
+    }, 500);
   };
 
   const handleMessage = useCallback((event: MessageEvent) => {
