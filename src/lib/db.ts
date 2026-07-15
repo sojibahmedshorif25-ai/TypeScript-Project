@@ -74,7 +74,11 @@ export async function connectDB() {
     throw e;
   }
 
-  await autoSeed();
+  try {
+    await autoSeed();
+  } catch (e) {
+    console.warn("Auto-seed skipped:", e);
+  }
 
   return cached.conn;
 }
